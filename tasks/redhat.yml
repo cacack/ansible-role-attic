@@ -1,0 +1,23 @@
+---
+
+- name: Install dependencies on EL-based distributions
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - fakeroot
+    - fuse
+    - fuse-devel
+    - gcc
+    - git
+    - gcc-c++
+    - libacl
+    - libacl-devel
+    - lz4-devel
+    - openssl
+    - openssl-devel
+    - patch
+    - pkgconfig
+    - python3
+    - python3-pip
+  become: yes

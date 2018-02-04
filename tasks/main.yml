@@ -1,31 +1,28 @@
 ---
-- name: Install dependencies on Debian-based distributions
-  apt: name={{ item }} state=present
-  with_items:
-    - python3-dev
-    - python3-pip
-    - libssl-dev
-    - libevent-dev
-    - uuid-dev
-    - libacl1-dev
-    - liblzo2-dev
-  sudo: yes
-  when: ansible_os_family == "Debian"
-  tags: [ "borg_backup" ]
 
-- name: install packages on Red Hat based distributions
-  yum: name={{ item }} state=present
-  with_items:
-    - python3-pip
-  sudo: yes
-  when: ansible_os_family == "RedHat"
-  tags: [ "borg_backup" ]
+- name: Include OS-specific tasks
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - files:
+      - "{{ ansible_distribution|lower }}-{{ ansible_distribution_major_version }}.yml"
+      - "{{ ansible_distribution|lower }}.yml"
+      - "{{ ansible_os_family|lower }}.yml"
+  become: 'yes'
 
-- name: Install borg_backup using pip
-  pip:
-    name: borg_backup
-    version: "{{borg_backup_version}}"
+- name: Install python pip
+  easy_install:
+    name: pip
     state: present
-    executable: pip3
-  sudo: yes
-  tags: [ "borg_backup" ]
+
+- name: Install python virtualenv
+  pip:
+    name: virtualenv
+    state: present
+
+  #- name: Install borg_backup using pip
+  #  pip:
+  #    name: borg_backup
+  #    version: "{{ borg_backup_version }}"
+  #    state: present
+  #    executable: pip3
+  #  become: 'yes'

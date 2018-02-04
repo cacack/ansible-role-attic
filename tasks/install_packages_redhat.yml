@@ -1,6 +1,0 @@
----
-- name: install packages on Red Hat based distributions
-  yum: name={{ item }} state=present
-  with_items:
-    - python3-pip
-  sudo: yes
