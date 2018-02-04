@@ -11,7 +11,7 @@
     - liblzo2-dev
   sudo: yes
   when: ansible_os_family == "Debian"
-  tags: [ "attic" ]
+  tags: [ "borg_backup" ]
 
 - name: install packages on Red Hat based distributions
   yum: name={{ item }} state=present
@@ -19,13 +19,13 @@
     - python3-pip
   sudo: yes
   when: ansible_os_family == "RedHat"
-  tags: [ "attic" ]
+  tags: [ "borg_backup" ]
 
-- name: Install Attic using pip
+- name: Install borg_backup using pip
   pip:
-    name: attic
-    version: "{{attic_version}}"
+    name: borg_backup
+    version: "{{borg_backup_version}}"
     state: present
     executable: pip3
   sudo: yes
-  tags: [ "attic" ]
+  tags: [ "borg_backup" ]

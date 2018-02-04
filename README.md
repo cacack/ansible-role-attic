@@ -1,2 +1,3 @@
-# ansible-role-attic
-Install Attic using Ansible.
+# ansible-role-borg-backup
+
+Ansible role to install [borg-backup](https://github.com/borgbackup/borg).
