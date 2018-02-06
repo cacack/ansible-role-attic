@@ -13,16 +13,24 @@
   easy_install:
     name: pip
     state: present
+  become: 'yes'
 
 - name: Install python virtualenv
   pip:
     name: virtualenv
     state: present
 
-  #- name: Install borg_backup using pip
-  #  pip:
-  #    name: borg_backup
-  #    version: "{{ borg_backup_version }}"
-  #    state: present
-  #    executable: pip3
-  #  become: 'yes'
+- name: Install borgbackup using pip and virtualenv
+  pip:
+    name: borgbackup
+    version: "{{ borg_backup_version }}"
+    state: present
+    virtualenv: /opt/borg_backup
+  become: 'yes'
+
+- name: Symlink borgbackup
+  file:
+    src: /opt/borg_backup/bin/borg
+    dest: /usr/local/bin/borg
+    state: link
+  become: yes
